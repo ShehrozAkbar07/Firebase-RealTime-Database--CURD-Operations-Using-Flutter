@@ -1,5 +1,4 @@
 import 'package:curd_operation/fetch_from_database.dart';
-import 'package:curd_operation/stream_builder.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +58,7 @@ class _HomeState extends State<Home> {
           InkWell(
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => StreamBuilderr()));
+                  MaterialPageRoute(builder: (context) => FetchData()));
             },
             child: Container(
               height: 50,

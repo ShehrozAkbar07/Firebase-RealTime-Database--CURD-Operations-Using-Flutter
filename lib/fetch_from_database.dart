@@ -17,6 +17,7 @@ class FetchData extends StatefulWidget {
 
 class _FetchDataState extends State<FetchData> {
   final ref = FirebaseDatabase.instance.ref('Post');
+  TextEditingController searchFilter = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,16 +30,41 @@ class _FetchDataState extends State<FetchData> {
             child: Icon(Icons.arrow_back_ios)),
       ),
       body: Column(children: [
+        SizedBox(
+          height: 10,
+        ),
+        TextFormField(
+          controller: searchFilter,
+          onChanged: (String value) {
+            setState(() {});
+          },
+          decoration:
+              InputDecoration(hintText: 'hello', border: OutlineInputBorder()),
+        ),
         Expanded(
           child: FirebaseAnimatedList(
               physics: BouncingScrollPhysics(),
               query: ref,
               itemBuilder: ((context, snapshot, animation, index) {
-                return ListTile(
-                  focusColor: Colors.blue,
-                  title: Text(snapshot.child('title').value.toString()),
-                  subtitle: Text(snapshot.child('id').value.toString()),
-                );
+                final title = snapshot.child('title').value.toString();
+                if (searchFilter.text.isEmpty) {
+                  return ListTile(
+                    focusColor: Colors.blue,
+                    title: Text(snapshot.child('title').value.toString()),
+                    subtitle: Text(snapshot.child('id').value.toString()),
+                  );
+                } else if (title
+                    .toLowerCase()
+                    .contains(searchFilter.text.toLowerCase())) {
+                  return ListTile(
+                    focusColor: Colors.blue,
+                    title: Text(snapshot.child('title').value.toString()),
+                    subtitle: Text(snapshot.child('id').value.toString()),
+                  );
+                } else {
+                  Container();
+                }
+                return Container();
               })),
         )
       ]),
